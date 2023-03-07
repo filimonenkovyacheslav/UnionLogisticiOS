@@ -5,6 +5,7 @@ import {updateTaskReducer} from './task';
 import {addDataReducer} from './addData';
 import {newPackingReducer} from './newPacking';
 import {duplicatePackingReducer} from './duplicatePacking';
+import {addListReducer} from './addList';
 
 
 export default combineReducers({
@@ -13,5 +14,6 @@ export default combineReducers({
   updateTask: updateTaskReducer,
   addData: addDataReducer,
   newPacking: newPackingReducer,
-  duplicatePacking: duplicatePackingReducer
+  duplicatePacking: duplicatePackingReducer,
+  addList: addListReducer
 });

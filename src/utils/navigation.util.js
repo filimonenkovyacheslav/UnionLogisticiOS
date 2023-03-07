@@ -17,6 +17,8 @@ import Scan from '../screens/Scan/Scan';
 import AddTracking from '../screens/AddTracking/AddTracking';
 import NewPacking from '../screens/NewPacking/NewPacking';
 import DuplicatePacking from '../screens/DuplicatePacking/DuplicatePacking';
+import ScanList from '../screens/ScanList/ScanList';
+import AddTrackingList from '../screens/AddTrackingList/AddTrackingList';
 
 
 const Closed = createNativeStackNavigator();
@@ -46,6 +48,8 @@ function MainNav() {
       <Main.Screen name="Add Tracking" component={AddTracking} />
       <Main.Screen name="New Packing List" component={NewPacking} />
       <Main.Screen name="Duplicate Packing List" component={DuplicatePacking} />
+      <Main.Screen name="Scan Tracking to List" component={ScanList} />
+      <Main.Screen name="Add Tracking to List" component={AddTrackingList} />
     </Main.Navigator>
   );
 }

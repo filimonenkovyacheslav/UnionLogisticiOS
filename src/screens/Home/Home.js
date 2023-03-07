@@ -27,6 +27,10 @@ class Home extends Component {
   navToDuplicatePacking = () => {
     navToWithScan('Duplicate Packing List', this.props, this.state)
   }
+
+  navToScanTracking = () => {
+    navToWithScan('Scan Tracking to List', this.props, this.state)
+  }
   /*saveTracking = () => {
     navToWithScan('Add Tracking', this.props, this.state)
   }*/
@@ -60,6 +64,9 @@ class Home extends Component {
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={this.navToDuplicatePacking}>
             <Text style={styles.buttonText}>Duplicate a Packing List</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={this.navToScanTracking}>
+            <Text style={styles.buttonText}>Scan Tracking to List</Text>
           </TouchableOpacity>
           {/*<TouchableOpacity style={styles.button} onPress={this.saveTracking}>
             <Text style={styles.buttonText}>Add Tracking</Text>
