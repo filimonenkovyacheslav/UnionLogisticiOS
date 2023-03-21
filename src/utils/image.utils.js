@@ -1,5 +1,6 @@
 const images = {
   logo: require('../assets/logo.png'),
+  logoOE: require('../assets/logo-oe.png'),
   avatar: require('../assets/avatar.png'),
   logout: require('../assets/logout.png'),
   barCode: require('../assets/bar-code.png'),

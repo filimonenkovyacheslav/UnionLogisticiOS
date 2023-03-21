@@ -6,14 +6,15 @@ export const navTo = (screen, props) => {
   }
 }
 
-export const navToWithParams = (screen, props) => {
+export const navToWithParams = (screen, props, data) => {
   const { navigation } = props
   navigation.navigate('Home page', {
    screen: screen,
    params: {
      userName: props.userName,
      token: props.token,
-     userRole: props.userRole
+     userRole: props.userRole,
+     serverName: data.serverName
    }
   })
   if (navigation && navigation.closeDrawer) {
@@ -30,6 +31,7 @@ export const navToWithScan = (screen, props, data) => {
      token: data.token,
      userRole: data.userRole,
      tracking: data.tracking,
+     serverName: data.serverName,
      id: data.id
    }
   })
@@ -45,7 +47,8 @@ export const navToAfterUpdate = (screen, props, data) => {
    params: {
      userName: data.userName,
      token: data.token,
-     userRole: data.userRole
+     userRole: data.userRole,
+     serverName: data.serverName
    }
   })
   if (navigation && navigation.closeDrawer) {

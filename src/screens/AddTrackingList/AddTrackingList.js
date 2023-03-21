@@ -17,6 +17,7 @@ class AddTrackingList extends Component {
       token: props.route.params.token,
       userRole: props.route.params.userRole,
       tracking: props.route.params.tracking,
+      serverName: props.route.params.serverName,
       id: props.route.params.id,
       listName: '',
       counter: 0,
@@ -71,6 +72,7 @@ class AddTrackingList extends Component {
     const body = {
       token: this.state.token,
       tracking_list: this.state.tracking,
+      serverName: this.state.serverName,
       list_name: this.state.listName
     }
 

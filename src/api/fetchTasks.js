@@ -3,7 +3,7 @@ import {fetchTasksBegin, fetchTasksError, fetchTasksSuccess} from '../actions/ta
 
 
 export default function fetchTasks(userData) {
-  const url = appConfig.API_URL + '/api/get-courier-tasks?';
+  const url = userData.serverName + '/api/get-courier-tasks?';
   let params = ''
   for (let v in userData) {
     if (userData.hasOwnProperty(v)) {

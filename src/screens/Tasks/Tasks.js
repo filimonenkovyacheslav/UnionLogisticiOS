@@ -22,6 +22,7 @@ class Tasks extends Component {
         token: props.route.params.token,
         userRole: props.route.params.userRole,
         tracking: props.route.params.tracking,
+        serverName: props.route.params.serverName,
         phoneNumber: ''
     };
     this.renderTasks = this.renderTasks.bind(this)
@@ -33,6 +34,7 @@ class Tasks extends Component {
     this.userData = {
       name: this.props.route.params.userName,
       token: this.props.route.params.token,
+      serverName: this.props.route.params.serverName,
       role: this.props.route.params.userRole
     }
     this.props.fetchTasks(this.userData)
@@ -88,7 +90,8 @@ class Tasks extends Component {
           onPress: () => {
             const data = {
               id: params.item.id,
-              token: params.user.token
+              token: params.user.token,
+              serverName: this.state.serverName
             }
             this.props.updateTask(data);
 
@@ -98,6 +101,7 @@ class Tasks extends Component {
                 const userData = {
                   userName: this.state.userName,
                   token: this.state.token,
+                  serverName: this.state.serverName,
                   userRole: this.state.userRole
                 }
                 Alert.alert('Success', 'Courier task updated successfully!')
@@ -131,6 +135,7 @@ class Tasks extends Component {
               token: params.user.token,
               userName: this.state.userName,
               tracking: this.state.tracking,
+              serverName: this.state.serverName,
               userRole: this.state.userRole
             }
             navToWithScan('Scan', this.props, data)

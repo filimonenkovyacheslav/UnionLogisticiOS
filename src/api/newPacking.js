@@ -3,7 +3,7 @@ import {newPackingBegin, newPackingError, newPackingSuccess} from '../actions/ne
 
 
 export default function createNewPacking(body) {
-  const url = appConfig.API_URL + '/api/add-new-signed-form';
+  const url = body.serverName + '/api/add-new-signed-form';
   const parameters = {
     method: 'POST',
     headers: {

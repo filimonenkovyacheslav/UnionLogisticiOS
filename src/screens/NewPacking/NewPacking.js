@@ -17,6 +17,7 @@ class NewPacking extends Component {
       userName: props.route.params.userName,
       token: props.route.params.token,
       userRole: props.route.params.userRole,
+      serverName: props.route.params.serverName,
       counter: 0,
       timerID: null,
       sent: false
@@ -77,6 +78,7 @@ class NewPacking extends Component {
     const body = {
       token: this.state.token,
       session_token: this.sessionToken(),
+      serverName: this.state.serverName,
       which_admin: 'ru'
     }
 
@@ -88,6 +90,7 @@ class NewPacking extends Component {
     const body = {
       token: this.state.token,
       session_token: this.sessionToken(),
+      serverName: this.state.serverName,
       which_admin: 'eng'
     }
 

@@ -3,7 +3,7 @@ import {addDataBegin, addDataError, addDataSuccess} from '../actions/addData';
 
 
 export default function addData(body) {
-  const url = appConfig.API_URL + '/api/add-data-with-tracking';
+  const url = body.serverName + '/api/add-data-with-tracking';
   const parameters = {
     method: 'POST',
     headers: {
@@ -12,7 +12,7 @@ export default function addData(body) {
     },
     body: JSON.stringify(body),
   };
-
+console.log(url)
   return dispatch => {
     dispatch(addDataBegin());
 

@@ -3,7 +3,7 @@ import {duplicatePackingBegin, duplicatePackingError, duplicatePackingSuccess} f
 
 
 export default function createDuplicatePacking(body) {
-  const url = appConfig.API_URL + '/api/add-duplicate-signed-form';
+  const url = body.serverName + '/api/add-duplicate-signed-form';
   const parameters = {
     method: 'POST',
     headers: {

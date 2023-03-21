@@ -12,7 +12,8 @@ class Home extends Component {
       userName: props.route.params.userName,
       token: props.route.params.token,
       userRole: props.route.params.userRole,
-      tracking: ''
+      tracking: '',
+      serverName: props.route.params.serverName
     }
   }
 
@@ -31,9 +32,6 @@ class Home extends Component {
   navToScanTracking = () => {
     navToWithScan('Scan Tracking to List', this.props, this.state)
   }
-  /*saveTracking = () => {
-    navToWithScan('Add Tracking', this.props, this.state)
-  }*/
 
   static getDerivedStateFromProps(props, state) {
     if (props.route.params.token !== state.token) {
@@ -41,7 +39,8 @@ class Home extends Component {
         userName: props.route.params.userName,
         token: props.route.params.token,
         userRole: props.route.params.userRole,
-        tracking: ''
+        tracking: '',
+        serverName: props.route.params.serverName
       };
     }
 
@@ -54,7 +53,9 @@ class Home extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.logoWarap}>
-          <Image source={images.logo} />
+          <Image 
+          source={(this.state.serverName === 'https://ddcargos.com')?images.logo:images.logoOE} 
+          />
           <Text style={styles.textLogo}>Hello, {this.state.userName}!</Text>
           <TouchableOpacity style={styles.button} onPress={this.navToTasks}>
             <Text style={styles.buttonText}>Tasks</Text>
@@ -67,10 +68,7 @@ class Home extends Component {
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={this.navToScanTracking}>
             <Text style={styles.buttonText}>Scan Tracking to List</Text>
-          </TouchableOpacity>
-          {/*<TouchableOpacity style={styles.button} onPress={this.saveTracking}>
-            <Text style={styles.buttonText}>Add Tracking</Text>
-          </TouchableOpacity>*/}
+          </TouchableOpacity>         
         </View>
       </View>
     )

@@ -17,6 +17,7 @@ class ScanList extends Component {
             token: props.route.params.token,
             userRole: props.route.params.userRole,
             tracking: [],
+            serverName: props.route.params.serverName,
             id: props.route.params.id
         };
     }

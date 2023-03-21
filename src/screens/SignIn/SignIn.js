@@ -22,7 +22,8 @@ class SignIn extends Component {
       password: '',
       counter: 0,
       timerID: null,
-      sent: false
+      sent: false,
+      serverName: 'https://ddcargos.com'      
     }
     this.handleSignIn = this.handleSignIn.bind(this)
     this.handleResponse = this.handleResponse.bind(this)
@@ -36,8 +37,8 @@ class SignIn extends Component {
       if(roleArr.indexOf(this.props.userRole) !== -1){
         clearInterval(this.state.timerID)
         this.setState({ sent: false })
-        this.setUser([this.props.userName,this.props.token,this.props.userRole])
-        navToWithParams('Home', this.props)
+        this.setUser([this.props.userName,this.props.token,this.props.userRole,this.state.serverName])
+        navToWithParams('Home', this.props,this.state)
       }
       else {
         clearInterval(this.state.timerID)
@@ -81,7 +82,8 @@ class SignIn extends Component {
 
     const body = {
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
+      serverName: this.state.serverName
     }
 
     this.props.signIn(body)
@@ -101,8 +103,16 @@ class SignIn extends Component {
        await AsyncStorage.setItem('userNameUL', value[0])
        await AsyncStorage.setItem('tokenUL', value[1])
        await AsyncStorage.setItem('userRoleUL', value[2])
+       await AsyncStorage.setItem('serverNameUL', value[3])
     } catch(e) {
     }
+  }
+
+  changeServer = () => {
+    if (this.state.serverName === 'https://ddcargos.com') 
+      this.setState({ serverName: 'https://www.forward-post.com' })
+    else
+      this.setState({ serverName: 'https://ddcargos.com' })
   }
 
 
@@ -118,37 +128,42 @@ class SignIn extends Component {
         />
         <View style={styles.wrapper}>
           <View style={styles.imageContainer}>
-            <Image source={images.logo} style={styles.logo} />
-          </View>
+            <Image 
+            source={(this.state.serverName === 'https://ddcargos.com')?images.logo:images.logoOE} 
+            />
+          </View>         
         </View>
-          <View style={styles.SignInForm}>
-            <View style={styles.SignInFormEmail}>
-              <Text style={styles.SignInFormEmailTitle}>Email</Text>
-              <FontAwesomeIcon icon={faUserAlt} style={styles.imageInput} size={10} />
-            </View>
-              <TextInput
-                textContentType={'username'}
-                value={this.state.email}
-                onChangeText={this.setEmail}
-                style={styles.textInputStyle}
-                autoCorrect={false}
-              />
-            <View style={styles.SignInFormPassword}>
-              <Text style={styles.SignInFormEmailTitle}>Password</Text>
-              <FontAwesomeIcon icon={faLock} style={styles.imageInput} size={10} />
-            </View>
-            <TextInput
-                textContentType={'password'}
-                secureTextEntry
-                value={this.state.password}
-                onChangeText={this.setPassword}
-                style={styles.textInputStyle}
-                autoCorrect={false}
-              />
+        <TouchableOpacity style={styles.button} onPress={this.changeServer}>
+          <Text style={styles.buttonText}>Change server</Text>
+        </TouchableOpacity>
+        <View style={styles.SignInForm}>
+          <View style={styles.SignInFormEmail}>
+            <Text style={styles.SignInFormEmailTitle}>Email</Text>
+            <FontAwesomeIcon icon={faUserAlt} style={styles.imageInput} size={10} />
           </View>
-          <TouchableOpacity style={ !this.state.sent ? styles.button : styles.buttonDisabled } onPress={this.handleSignIn}>
-            <Text style={styles.buttonText}>Sign In</Text>
-          </TouchableOpacity>
+            <TextInput
+              textContentType={'username'}
+              value={this.state.email}
+              onChangeText={this.setEmail}
+              style={styles.textInputStyle}
+              autoCorrect={false}
+            />
+          <View style={styles.SignInFormPassword}>
+            <Text style={styles.SignInFormEmailTitle}>Password</Text>
+            <FontAwesomeIcon icon={faLock} style={styles.imageInput} size={10} />
+          </View>
+          <TextInput
+              textContentType={'password'}
+              secureTextEntry
+              value={this.state.password}
+              onChangeText={this.setPassword}
+              style={styles.textInputStyle}
+              autoCorrect={false}
+            />
+        </View>
+        <TouchableOpacity style={ !this.state.sent ? styles.button : styles.buttonDisabled } onPress={this.handleSignIn}>
+          <Text style={styles.buttonText}>Sign In</Text>
+        </TouchableOpacity>
       </View>
     )
   }

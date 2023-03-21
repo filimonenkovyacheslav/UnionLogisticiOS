@@ -17,7 +17,8 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
     width: 102,
     height: 102,
-    marginTop: -25,
+    marginTop: -10,
+    marginLeft: -120,
     borderRadius: 14
   },
   SignInForm: {

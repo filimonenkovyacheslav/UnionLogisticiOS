@@ -3,7 +3,7 @@ import {addListBegin, addListError, addListSuccess} from '../actions/addList';
 
 
 export default function addList(body) {
-  const url = appConfig.API_URL + '/api/add-tracking-list';
+  const url = body.serverName + '/api/add-tracking-list';
   const parameters = {
     method: 'POST',
     headers: {

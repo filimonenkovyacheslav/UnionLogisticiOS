@@ -3,7 +3,7 @@ import {signInBegin, signInError, signInSuccess} from '../actions/user';
 
 
 export default function signIn(body) {
-  const url = appConfig.API_URL + '/api/login';
+  const url = body.serverName + '/api/login';
   const parameters = {
     method: 'POST',
     headers: {

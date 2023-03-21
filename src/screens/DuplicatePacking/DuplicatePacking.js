@@ -17,6 +17,7 @@ class DuplicatePacking extends Component {
       userName: props.route.params.userName,
       token: props.route.params.token,
       userRole: props.route.params.userRole,
+      serverName: props.route.params.serverName,
       counter: 0,
       timerID: null,
       sent: false,
@@ -88,6 +89,7 @@ class DuplicatePacking extends Component {
     const body = {
       token: this.state.token,
       session_token: this.sessionToken(),
+      serverName: this.state.serverName,
       duplicate_qty: 1,
       packing_number: this.state.packingNumber
     }

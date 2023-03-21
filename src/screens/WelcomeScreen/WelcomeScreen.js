@@ -31,7 +31,8 @@ class WelcomeScreen extends Component {
      const userName = await AsyncStorage.getItem('userNameUL')
      const token = await AsyncStorage.getItem('tokenUL')
      const userRole = await AsyncStorage.getItem('userRoleUL')
-     if (token) navToAfterUpdate('Home', this.props, {userName,token,userRole})
+     const serverName = await AsyncStorage.getItem('serverNameUL')
+     if (token) navToAfterUpdate('Home', this.props, {userName,token,userRole,serverName})
    } catch(e) {
    }
  }

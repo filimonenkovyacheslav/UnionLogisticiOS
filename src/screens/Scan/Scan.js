@@ -17,6 +17,7 @@ class Scan extends Component {
             token: props.route.params.token,
             userRole: props.route.params.userRole,
             tracking: props.route.params.tracking,
+            serverName: props.route.params.serverName,
             id: props.route.params.id
         };
     }

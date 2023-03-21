@@ -3,7 +3,7 @@ import {updateTaskBegin, updateTaskError, updateTaskSuccess} from '../actions/ta
 
 
 export default function updateTask(userData) {
-  const url = appConfig.API_URL + '/api/update-task-status-box';
+  const url = userData.serverName + '/api/update-task-status-box';
   const parameters = {
     method: 'POST',
     headers: {
