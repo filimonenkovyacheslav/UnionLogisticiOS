@@ -6,6 +6,8 @@ import {addDataReducer} from './addData';
 import {newPackingReducer} from './newPacking';
 import {duplicatePackingReducer} from './duplicatePacking';
 import {addListReducer} from './addList';
+import {fetchChecklistReducer} from './checklist';
+
 
 
 export default combineReducers({
@@ -15,5 +17,6 @@ export default combineReducers({
   addData: addDataReducer,
   newPacking: newPackingReducer,
   duplicatePacking: duplicatePackingReducer,
-  addList: addListReducer
+  addList: addListReducer,
+  fetchChecklist: fetchChecklistReducer
 });

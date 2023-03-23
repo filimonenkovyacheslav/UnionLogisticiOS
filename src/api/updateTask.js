@@ -1,4 +1,3 @@
-import { appConfig } from '../config';
 import {updateTaskBegin, updateTaskError, updateTaskSuccess} from '../actions/task';
 
 

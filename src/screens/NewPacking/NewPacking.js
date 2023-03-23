@@ -7,7 +7,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import createNewPackingAction from '../../api/newPacking'
 import { newPackingClear } from '../../actions/newPacking'
-import { appConfig } from '../../config';
 
 
 class NewPacking extends Component {
@@ -30,7 +29,7 @@ class NewPacking extends Component {
   handleResponse(){
     this.setState({ counter: this.state.counter + 1 })
     if (this.props.link && this.state.counter < 10) {
-      const url = appConfig.API_URL + this.props.link;
+      const url = this.state.serverName + this.props.link;
       const supported = Linking.canOpenURL(url);
       if (supported) {
         Linking.openURL(url);

@@ -3,6 +3,7 @@ import { View, Image, Text, TouchableOpacity } from 'react-native'
 import styles from './HomeStyles'
 import images from '../../utils/image.utils'
 import { navToWithScan } from '../../utils'
+import { appConfig } from '../../config';
 
 
 class Home extends Component {
@@ -33,6 +34,10 @@ class Home extends Component {
     navToWithScan('Scan Tracking to List', this.props, this.state)
   }
 
+  navToSearchByChecklist = () => {
+    navToWithScan('Search by checklist', this.props, this.state)
+  }
+
   static getDerivedStateFromProps(props, state) {
     if (props.route.params.token !== state.token) {
       return {
@@ -54,7 +59,7 @@ class Home extends Component {
       <View style={styles.container}>
         <View style={styles.logoWarap}>
           <Image 
-          source={(this.state.serverName === 'https://ddcargos.com')?images.logo:images.logoOE} 
+          source={(this.state.serverName === appConfig.API_URL_1)?images.logo:images.logoOE} 
           />
           <Text style={styles.textLogo}>Hello, {this.state.userName}!</Text>
           <TouchableOpacity style={styles.button} onPress={this.navToTasks}>
@@ -68,7 +73,10 @@ class Home extends Component {
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={this.navToScanTracking}>
             <Text style={styles.buttonText}>Scan Tracking to List</Text>
-          </TouchableOpacity>         
+          </TouchableOpacity>     
+          <TouchableOpacity style={styles.button} onPress={this.navToSearchByChecklist}>
+            <Text style={styles.buttonText}>Search by checklist</Text>
+          </TouchableOpacity>     
         </View>
       </View>
     )

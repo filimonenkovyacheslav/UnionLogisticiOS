@@ -1,8 +1,8 @@
-import {fetchTasksBegin, fetchTasksError, fetchTasksSuccess} from '../actions/tasks';
+import {fetchChecklistBegin, fetchChecklistError, fetchChecklistSuccess} from '../actions/checklist';
 
 
-export default function fetchTasks(userData) {
-  const url = userData.serverName + '/api/get-courier-tasks?';
+export default function fetchChecklist(userData) {
+  const url = userData.serverName + '/api/get-checklist?';
   let params = ''
   for (let v in userData) {
     if (userData.hasOwnProperty(v)) {
@@ -20,7 +20,7 @@ export default function fetchTasks(userData) {
   };
 
   return dispatch => {
-    dispatch(fetchTasksBegin());
+    dispatch(fetchChecklistBegin());
 
     fetch(url+params, parameters)
         .then(res => res.json())
@@ -29,12 +29,12 @@ export default function fetchTasks(userData) {
           const {success, data, message} = response;
 
           if (!success) {
-            dispatch(fetchTasksError(message));
+            dispatch(fetchChecklistError(message));
             return;
           }
 
-          dispatch(fetchTasksSuccess(data));
+          dispatch(fetchChecklistSuccess(data));
         })
-        .catch(error => dispatch(fetchTasksError(error)));
+        .catch(error => dispatch(fetchChecklistError(error)));
   };
 }

@@ -1,5 +1,6 @@
 export const appConfig = {
-  //API_URL: "http://109.87.59.206"
-  API_URL: "https://ddcargos.com"
-  //API_URL: "http://172.20.6.146"
+  API_URL_1: "https://ddcargos.com",
+  API_URL_2: "https://www.forward-post.com"
+  //API_URL_1: "http://172.20.6.146",
+  //API_URL_2: "http://172.20.6.146"
 }

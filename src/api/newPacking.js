@@ -1,4 +1,3 @@
-import { appConfig } from '../config';
 import {newPackingBegin, newPackingError, newPackingSuccess} from '../actions/newPacking';
 
 

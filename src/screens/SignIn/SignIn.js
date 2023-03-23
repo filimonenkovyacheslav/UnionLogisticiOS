@@ -11,6 +11,7 @@ import signInAction from '../../api/signIn'
 import { signInClear } from '../../actions/user'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { navToWithParams, navTo } from '../../utils'
+import { appConfig } from '../../config';
 
 
 class SignIn extends Component {
@@ -23,7 +24,7 @@ class SignIn extends Component {
       counter: 0,
       timerID: null,
       sent: false,
-      serverName: 'https://ddcargos.com'      
+      serverName: appConfig.API_URL_1      
     }
     this.handleSignIn = this.handleSignIn.bind(this)
     this.handleResponse = this.handleResponse.bind(this)
@@ -109,10 +110,10 @@ class SignIn extends Component {
   }
 
   changeServer = () => {
-    if (this.state.serverName === 'https://ddcargos.com') 
-      this.setState({ serverName: 'https://www.forward-post.com' })
+    if (this.state.serverName === appConfig.API_URL_1) 
+      this.setState({ serverName: appConfig.API_URL_2 })
     else
-      this.setState({ serverName: 'https://ddcargos.com' })
+      this.setState({ serverName: appConfig.API_URL_1 })
   }
 
 

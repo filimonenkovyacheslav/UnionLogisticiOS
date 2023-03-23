@@ -1,4 +1,3 @@
-import { appConfig } from '../config';
 import {signInBegin, signInError, signInSuccess} from '../actions/user';
 
 

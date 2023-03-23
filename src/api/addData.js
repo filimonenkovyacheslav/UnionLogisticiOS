@@ -1,4 +1,3 @@
-import { appConfig } from '../config';
 import {addDataBegin, addDataError, addDataSuccess} from '../actions/addData';
 
 

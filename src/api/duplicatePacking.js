@@ -1,4 +1,3 @@
-import { appConfig } from '../config';
 import {duplicatePackingBegin, duplicatePackingError, duplicatePackingSuccess} from '../actions/duplicatePacking';
 
 

@@ -1,4 +1,3 @@
-import { appConfig } from '../config';
 import {addListBegin, addListError, addListSuccess} from '../actions/addList';
 
 

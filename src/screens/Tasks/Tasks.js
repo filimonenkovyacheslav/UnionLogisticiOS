@@ -11,7 +11,6 @@ import { fetchTasksClear } from '../../actions/tasks'
 import updateTaskAction from '../../api/updateTask'
 import { updateTaskClear } from '../../actions/task'
 import { navToAfterUpdate, navToWithScan } from '../../utils'
-import { appConfig } from '../../config';
 
 
 class Tasks extends Component {
@@ -69,7 +68,7 @@ class Tasks extends Component {
       return false
     }
     else{
-      const url = appConfig.API_URL + '/download-pdf/' + params.item.packing_num + '/1';
+      const url = this.state.serverName + '/download-pdf/' + params.item.packing_num + '/1';
       const supported = Linking.canOpenURL(url);
       if (supported) {
         Linking.openURL(url);
