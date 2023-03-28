@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { TouchableOpacity, Text, Linking, View, Alert, Image, ImageBackground, BackHandler, ScrollView } from 'react-native';
+import { TouchableOpacity, Text, Linking, View, Alert, Image, ImageBackground, BackHandler, ScrollView, TextInput } from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import styles from './SearchByChecklistStyles';
 import images from '../../utils/image.utils'
@@ -20,9 +20,10 @@ class SearchByChecklist extends Component {
             userName: props.route.params.userName,
             token: props.route.params.token,
             userRole: props.route.params.userRole,
-            tracking: [],
+            tracking: null,
             serverName: props.route.params.serverName,
-            id: props.route.params.id
+            id: props.route.params.id,
+            isVisible: false
         };
 
         this.userData = {
@@ -55,6 +56,24 @@ class SearchByChecklist extends Component {
         }
     }
 
+    inputHandly = () => {
+        if (!this.state.isVisible)
+            this.setState({ isVisible: true })
+        else
+            this.setState({ isVisible: false })
+    }
+
+    setTracking = (value) => {
+        this.setState({ tracking: value })
+    }
+
+    checkTracking = () => {
+        this.setState({
+            scan: false,
+            ScanResult: true
+        })
+    }
+
     activeQR = () => {
         this.setState({ scan: true })
     }
@@ -64,7 +83,7 @@ class SearchByChecklist extends Component {
     }
 
     render() {
-        const { scan, ScanResult, result, tracking } = this.state
+        const { scan, ScanResult, result, tracking, isVisible } = this.state
         const checklistArr = this.props.checklist
         const checkResult = checklistArr.length ? true : false
         return (
@@ -77,12 +96,37 @@ class SearchByChecklist extends Component {
                             Please move your camera {"\n"} over the Barcode
                             </Text>
                             <Image source={images.barCode} style={{margin: 0}}></Image>
-                            <TouchableOpacity onPress={this.activeQR} style={styles.buttonScan}>
+                            <TouchableOpacity onPress={this.inputHandly} style={styles.buttonScan}>
                                 <View style={styles.buttonWrapper}>
-                                <Image source={images.camera} style={{height: 36, width: 36, marginRight: 20}}></Image>
-                                <Text style={{...styles.buttonTextStyle, color: '#2196f3'}}>Scan Barcode</Text>
+                                <Image source={images.handly} style={{height: 36, width: 36, marginRight: 20}}></Image>
+                                <Text style={{...styles.buttonTextStyle, color: '#2196f3'}}>Input Handly</Text>
                                 </View>
                             </TouchableOpacity>
+                            <View style={{ display: isVisible ? 'flex' : 'none' }} >
+                                <View style={styles.seachByForm}>
+                                    <View style={styles.seachByFormTracking}>
+                                        <Text style={styles.seachByFormTrackingTitle}>Tracking number</Text>
+                                    </View>
+                                    <TextInput
+                                      textContentType={'username'}
+                                      value={tracking}
+                                      onChangeText={this.setTracking}
+                                      style={styles.textInputStyle}
+                                      autoCorrect={false}
+                                    />
+                                    <TouchableOpacity onPress={this.checkTracking} style={styles.buttonCheck}>
+                                        <Text style={{color: 'white',textAlign: 'center'}}>Check Tracking</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                            <View style={{ display: isVisible ? 'none' : 'flex' }} >
+                                <TouchableOpacity onPress={this.activeQR} style={styles.buttonScan}>
+                                    <View style={styles.buttonWrapper}>
+                                    <Image source={images.camera} style={{height: 36, width: 36, marginRight: 20}}></Image>
+                                    <Text style={{...styles.buttonTextStyle, color: '#2196f3'}}>Scan Barcode</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
                         </View>                      
                     }
                     {!scan && !ScanResult && !checkResult &&                       

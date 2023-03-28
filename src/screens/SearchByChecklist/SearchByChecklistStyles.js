@@ -173,6 +173,46 @@ const styles = {
     buttonTextStyle: {
         color: 'black',
         fontWeight: 'bold',
+    },
+    seachByForm: {
+        width: 286,
+        height: 162,
+        borderWidth: 1,
+        borderRadius: 16,
+        alignSelf: 'center',
+        backgroundColor: '#fff',
+        alignItems: 'center'
+    },
+    seachByFormTracking: {
+        flexDirection: 'row',
+        marginTop: 25,
+        marginRight: 30,
+        justifyContent: 'space-between'
+    },
+    seachByFormTrackingTitle: {
+        marginHorizontal: 28,
+        color: '#BABABA',
+        fontSize: 10
+    },
+    textInputStyle: {
+        width: '80%',
+        height: 30,
+        alignSelf: 'center',
+        fontSize: 13,
+        borderBottomWidth: 1,
+        borderBottomColor: '#BABABA',
+        paddingHorizontal: 10,
+        paddingVertical: 5
+    },
+    buttonCheck: {
+        borderRadius: 10,
+        backgroundColor: '#254680',
+        paddingTop: 20,
+        paddingRight: 25,
+        paddingBottom: 20,
+        paddingLeft: 25,
+        marginTop: 20,
+        width: '60%'
     }
 }
 
