@@ -3,7 +3,7 @@ import { TouchableOpacity, Text, Linking, View, Image, ImageBackground, BackHand
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import styles from './ScanStyles';
 import images from '../../utils/image.utils'
-import { navToWithScan } from '../../utils'
+import { navToWithTask } from '../../utils'
 
 
 class Scan extends Component {
@@ -18,7 +18,10 @@ class Scan extends Component {
             userRole: props.route.params.userRole,
             tracking: props.route.params.tracking,
             serverName: props.route.params.serverName,
-            id: props.route.params.id
+            id: props.route.params.id,
+            senderPhone: props.route.params.senderPhone,
+            senderName: props.route.params.senderName,
+            senderSite: props.route.params.senderSite
         };
     }
 
@@ -44,7 +47,7 @@ class Scan extends Component {
     }
 
     saveTracking = () => {
-      navToWithScan('Add Tracking', this.props, this.state)
+      navToWithTask('Add Tracking', this.props, this.state)
     }
 
     activeQR = () => {

@@ -1,8 +1,8 @@
-import {addDataBegin, addDataError, addDataSuccess} from '../actions/addData';
+import {addReceiptBegin, addReceiptError, addReceiptSuccess} from '../actions/addReceipt';
 
 
-export default function addData(body) {
-  const url = body.serverName + '/api/add-data-with-tracking';
+export default function addReceipt(body) {
+  const url = body.senderSite + '/api/add-new-receipt';
   const parameters = {
     method: 'POST',
     headers: {
@@ -11,9 +11,9 @@ export default function addData(body) {
     },
     body: JSON.stringify(body),
   };
-
+console.log(url)
   return dispatch => {
-    dispatch(addDataBegin());
+    dispatch(addReceiptBegin());
 
     fetch(url, parameters)
         .then(res => res.json())
@@ -21,12 +21,12 @@ export default function addData(body) {
           const {success, message} = response;
 
           if (!success) {
-            dispatch(addDataError(response));
+            dispatch(addReceiptError(response));
             return;
           }
 
-          dispatch(addDataSuccess(message));
+          dispatch(addReceiptSuccess(message));
         })
-        .catch(error => dispatch(addDataError(error)));
+        .catch(error => dispatch(addReceiptError(error)));
   };
 }

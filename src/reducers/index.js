@@ -7,7 +7,7 @@ import {newPackingReducer} from './newPacking';
 import {duplicatePackingReducer} from './duplicatePacking';
 import {addListReducer} from './addList';
 import {fetchChecklistReducer} from './checklist';
-
+import {addReceiptReducer} from './addReceipt';
 
 
 export default combineReducers({
@@ -18,5 +18,6 @@ export default combineReducers({
   newPacking: newPackingReducer,
   duplicatePacking: duplicatePackingReducer,
   addList: addListReducer,
-  fetchChecklist: fetchChecklistReducer
+  fetchChecklist: fetchChecklistReducer,
+  addReceipt: addReceiptReducer
 });

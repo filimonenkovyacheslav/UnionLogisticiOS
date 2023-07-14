@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import addDataAction from '../../api/addData'
 import { addDataClear } from '../../actions/addData'
-import { navToAfterUpdate } from '../../utils'
+import { navToWithTask } from '../../utils'
 
 
 class AddTracking extends Component {
@@ -19,6 +19,9 @@ class AddTracking extends Component {
       tracking: props.route.params.tracking,
       serverName: props.route.params.serverName,
       id: props.route.params.id,
+      senderPhone: props.route.params.senderPhone,
+      senderName: props.route.params.senderName,
+      senderSite: props.route.params.senderSite,
       weight: '',
       width: '',
       height: '',
@@ -31,6 +34,7 @@ class AddTracking extends Component {
 
     this.handleAddData = this.handleAddData.bind(this)
     this.handleResponse = this.handleResponse.bind(this)
+    this.handleAddReceipt = this.handleAddReceipt.bind(this)
   }
 
 
@@ -39,14 +43,16 @@ class AddTracking extends Component {
     const { error, message } = this.props;
 
     if (message && this.state.counter < 10) {
-      if(this.state.userRole === 'courier')
+      /*if(this.state.userRole === 'courier')
         Alert.alert('Success', 'הוקלט בהצלחה \n Recorded successfully \n Обработка завершена успешно')
       else
-        Alert.alert('Success', 'Recorded successfully')
+        Alert.alert('Success', 'Recorded successfully')*/
       clearInterval(this.state.timerID)
       this.setState({ sent: false })
       this.props.clear()
-      navToAfterUpdate('Home', this.props, this.state)
+      this.handleAddReceipt()
+      /*console.log(this.props.task)      
+      navToAfterUpdate('Home', this.props, this.state)*/
     }
     else if (error && this.state.counter < 10){
       Alert.alert('Error', error.message+'\n כישלון. סרוק שוב \n Failure. Scan again \n Сканирование не удалось, повторите попытку')
@@ -108,6 +114,36 @@ class AddTracking extends Component {
   }
 
 
+  handleAddReceipt(){
+    return Alert.alert(
+      "GENERATE RECEIPT",
+      "Recorded successfully! Do you want to generate receipt?",
+      [
+        {
+          text: "Yes",
+          onPress: () => {
+            const data = {
+              id: this.state.id,
+              token: this.state.token,
+              userName: this.state.userName,
+              tracking: this.state.tracking,
+              serverName: this.state.serverName,
+              userRole: this.state.userRole,
+              senderPhone: this.state.senderPhone,
+              senderName: this.state.senderName,
+              senderSite: this.state.senderSite
+            }
+            navToWithTask('Add Receipt', this.props, data)
+          },
+        },
+        {
+          text: "No",
+        },
+      ]
+    );
+  }
+
+  
   setTracking = (value) => {
     this.setState({ tracking: value })
   }

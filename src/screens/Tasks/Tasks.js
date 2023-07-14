@@ -10,7 +10,7 @@ import fetchTasksAction from '../../api/fetchTasks'
 import { fetchTasksClear } from '../../actions/tasks'
 import updateTaskAction from '../../api/updateTask'
 import { updateTaskClear } from '../../actions/task'
-import { navToAfterUpdate, navToWithScan } from '../../utils'
+import { navToAfterUpdate, navToWithTask } from '../../utils'
 
 
 class Tasks extends Component {
@@ -121,6 +121,10 @@ class Tasks extends Component {
 
 
   handleAddTracking(params){
+    let siteName = '';
+    if (params.item.site_name === 'ORE' || this.state.serverName.indexOf('forward') !== -1) 
+      siteName = 'forward';
+
     if (!params.item.packing_num) return Alert.alert('Error', 'You can\'t add tracking without packing list!')
     return Alert.alert(
       "Are your sure?",
@@ -135,9 +139,12 @@ class Tasks extends Component {
               userName: this.state.userName,
               tracking: this.state.tracking,
               serverName: this.state.serverName,
-              userRole: this.state.userRole
+              userRole: this.state.userRole,
+              senderPhone: params.item.standard_phone,
+              senderName: params.item.shipper_name,
+              senderSite: siteName
             }
-            navToWithScan('Scan', this.props, data)
+            navToWithTask('Scan', this.props, data)
           },
         },
         {

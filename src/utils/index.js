@@ -55,3 +55,24 @@ export const navToAfterUpdate = (screen, props, data) => {
     navigation.closeDrawer()
   }
 }
+
+export const navToWithTask = (screen, props, data) => {
+  const { navigation } = props
+  navigation.navigate('Home page', {
+   screen: screen,
+   params: {
+     userName: data.userName,
+     token: data.token,
+     userRole: data.userRole,
+     tracking: data.tracking,
+     serverName: data.serverName,
+     id: data.id,
+     senderPhone: data.senderPhone,
+     senderName: data.senderName,
+     senderSite: data.senderSite
+   }
+  })
+  if (navigation && navigation.closeDrawer) {
+    navigation.closeDrawer()
+  }
+}
