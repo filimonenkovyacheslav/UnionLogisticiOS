@@ -82,10 +82,22 @@ class SearchByChecklist extends Component {
         this.setState({ scan: true, ScanResult: false })
     }
 
+    checkTrackingWithValue = (checklistArr, tracking) => {
+        for (let i = 0; i < checklistArr.length; i++) {
+            for (let prop in checklistArr[i]) {
+                if (checklistArr[i]['tracking_main'] === tracking)
+                    return checklistArr[i]['value'];
+            }
+        }
+
+        return false;
+    }
+
     render() {
         const { scan, ScanResult, result, tracking, isVisible } = this.state
         const checklistArr = this.props.checklist
         const checkResult = checklistArr.length ? true : false
+        
         return (
             <View style={styles.viewStyle}>
                 <Fragment>
@@ -139,8 +151,8 @@ class SearchByChecklist extends Component {
                             <Text style={styles.textTitle1}>Result</Text>
                             <View style={ScanResult ? styles.scanCardView : styles.cardView}>
                                 {
-                                    (checklistArr.indexOf(tracking) !== -1) ?
-                                    <Text style={styles.textFound}>FOUND</Text> :
+                                    (this.checkTrackingWithValue(checklistArr, tracking)) ?
+                                    <Text style={styles.textFound}>{this.checkTrackingWithValue(checklistArr, tracking)}</Text> :
                                     <Text style={styles.textNotFound}>NOT FOUND</Text>
                                 }
                                 <TouchableOpacity onPress={this.scanAgain} style={styles.buttonScan}>
