@@ -42,7 +42,7 @@ export default StyleSheet.create({
   },
   dataFormFirstField: {
     flexDirection: 'row',
-    marginTop: 25,
+    marginTop: 10,
     marginRight: 30,
     justifyContent: 'space-between'
   },

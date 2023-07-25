@@ -91,7 +91,8 @@ class AddReceipt extends Component {
       senderName: this.state.senderName,
       senderSite: site,
       quantity: this.state.quantity,
-      amount: this.state.amount
+      amount: this.state.amount,
+      tracking: this.state.tracking
     }
 
     this.props.addReceipt(body)

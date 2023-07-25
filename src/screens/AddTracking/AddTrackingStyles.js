@@ -42,18 +42,18 @@ export default StyleSheet.create({
   },
   dataFormFirstField: {
     flexDirection: 'row',
-    marginTop: 25,
+    marginTop: 10,
     marginRight: 30,
     justifyContent: 'space-between'
   },
   dataFormField: {
     flexDirection: 'row',
-    marginTop: 10,
+    marginTop: 8,
     marginRight: 30,
     justifyContent: 'space-between'
   },
   dataFormTitle: {
-    marginHorizontal: 28,
+    marginHorizontal: 18,
     color: '#BABABA',
     fontSize: 10
   },
