@@ -25,6 +25,16 @@ export default StyleSheet.create({
     top: 50,
     margin: 10
   },
+  buttonSelect: {
+    width: '80%',
+    height: 45,
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    alignSelf: 'center',
+    borderRadius: 9,
+    margin: 10
+  },
   buttonText: {
     color: '#fff',
     fontSize: 15,
@@ -66,5 +76,8 @@ export default StyleSheet.create({
     borderBottomColor: '#BABABA',
     paddingHorizontal: 10,
     paddingVertical: 5
+  },
+  imageSelect: {
+    color: '#444'
   }
 })

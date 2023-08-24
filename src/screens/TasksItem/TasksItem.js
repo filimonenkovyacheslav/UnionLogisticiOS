@@ -22,6 +22,10 @@ class TasksItem extends Component {
     this.props.handleAddTracking(this.props)
   }
 
+  handleAddPL = () => {
+    this.props.handleAddPL(this.props)
+  }
+
   render () {
     return (
       <View style={{ flexDirection: 'column', alignItems: 'center' }}>
@@ -52,9 +56,14 @@ class TasksItem extends Component {
           {
             (this.props.item.status === 'Box' || this.props.item.status === 'Коробка') ?
             (
-              <TouchableOpacity onPress={this.handleBoxDone}>
-                <Text style={styles.buttonGreen}>DONE</Text>
-              </TouchableOpacity>
+              <View>
+                <TouchableOpacity onPress={this.handleBoxDone}>
+                  <Text style={styles.buttonGreen}>DONE</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={this.handleAddPL}>
+                    <Text style={styles.buttonAdd}>Add PL</Text>
+                </TouchableOpacity>
+              </View>
             ) : (
               <View>
                 <TouchableOpacity onPress={this.handleAddTracking}>

@@ -57,12 +57,21 @@ export default StyleSheet.create({
     margin: 20,
     borderRadius: 20
   },
+  buttonAdd: {
+    backgroundColor: '#254680',
+    color: '#fff',
+    fontWeight: 'bold',
+    paddingHorizontal: 7,
+    margin: 20,
+    borderRadius: 20
+  },
   buttonGreen: {
     backgroundColor: 'green',
     color: '#fff',
     fontWeight: 'bold',
     paddingHorizontal: 10,
     margin: 20,
-    borderRadius: 20
+    borderRadius: 20,
+    textAlign: 'center'
   }
 })

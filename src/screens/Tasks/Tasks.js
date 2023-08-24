@@ -11,6 +11,8 @@ import { fetchTasksClear } from '../../actions/tasks'
 import updateTaskAction from '../../api/updateTask'
 import { updateTaskClear } from '../../actions/task'
 import { navToAfterUpdate, navToWithTask } from '../../utils'
+import createNewPackingAction from '../../api/newPacking'
+import { newPackingClear } from '../../actions/newPacking'
 
 
 class Tasks extends Component {
@@ -22,13 +24,19 @@ class Tasks extends Component {
         userRole: props.route.params.userRole,
         tracking: props.route.params.tracking,
         serverName: props.route.params.serverName,
-        phoneNumber: ''
+        phoneNumber: '',
+        counter: 0,
+        timerID: null,
+        sent: false
     };
     this.renderTasks = this.renderTasks.bind(this)
     this.handleBoxDone = this.handleBoxDone.bind(this)
     this.handleDownloadPL = this.handleDownloadPL.bind(this)
     this.handleAddTracking = this.handleAddTracking.bind(this)
     this.searchByPhoneNumber = this.searchByPhoneNumber.bind(this)
+    this.handleAddPL = this.handleAddPL.bind(this)
+    this.handleNewPacking = this.handleNewPacking.bind(this)
+    this.handleResponse = this.handleResponse.bind(this)
 
     this.userData = {
       name: this.props.route.params.userName,
@@ -55,10 +63,87 @@ class Tasks extends Component {
           handleBoxDone={this.handleBoxDone}
           handleDownloadPL={this.handleDownloadPL}
           handleAddTracking={this.handleAddTracking}
+          handleAddPL={this.handleAddPL}
         />
       )
 
     })
+  }
+
+
+  handleResponse(){
+    this.setState({ counter: this.state.counter + 1 })
+    if (this.props.link && this.state.counter < 10) {
+      const url = this.state.serverName + this.props.link;
+      const supported = Linking.canOpenURL(url);
+      if (supported) {
+        Linking.openURL(url);
+      } else {
+        Alert.alert(`Don't know how to open this URL: ${url}`);
+      }
+      clearInterval(this.state.timerID)
+      this.setState({ sent: false })
+      this.props.clearNewPacking()
+    }
+    else if (this.props.error && this.state.counter < 10) {
+      clearInterval(this.state.timerID)
+      this.setState({ sent: false })
+      Alert.alert('Error', this.props.error.message)
+      this.props.clearNewPacking()
+    }
+    else if (this.state.counter === 10){
+      clearInterval(this.state.timerID)
+      this.setState({ sent: false })
+      Alert.alert('Error', 'Network error!')
+      this.props.clearNewPacking()
+    }
+  }
+
+
+  handleNewPacking(body) {
+    if (this.state.sent) return false
+
+    this.props.clearNewPacking()
+    this.setState({ counter: 0 })
+    this.setState({ timerID: null })
+    this.setState({ sent: true })
+
+    this.props.createNewPacking(body)
+    this.setState({ timerID: setInterval(this.handleResponse, 1000) })
+  }
+
+
+  sessionToken = () =>{
+    return Date.now().toString(36) + Math.random().toString(36).substr(2)
+  }
+
+
+  handleAddPL(params){
+    if (!params.item.id) return Alert.alert('Error', 'You can\'t add packing list!')
+    return Alert.alert(
+      "Are your sure?",
+      "Are you sure you want to add packing list?",
+      [
+        {
+          text: "Yes",
+          onPress: () => {
+
+            const body = {
+              id: params.item.id,
+              token: this.state.token,
+              session_token: this.sessionToken(),
+              serverName: this.state.serverName,
+              which_admin: params.item.status === 'Коробка'?'ru':'eng'
+            }
+
+            this.handleNewPacking(body)            
+          },
+        },
+        {
+          text: "No",
+        },
+      ]
+    );
   }
 
 
@@ -228,6 +313,9 @@ function mapStateToProps (state) {
     error: state.fetchTasks.error,
     loadingUpdate: state.updateTask.loading,
     errorUpdate: state.updateTask.error,
+    link: state.newPacking.link,
+    loadingNewPacking: state.newPacking.loading,
+    errorNewPacking: state.newPacking.error,
   }
 }
 
@@ -238,6 +326,8 @@ function mapDispatchToProps (dispatch) {
     clear: fetchTasksClear,
     updateTask: updateTaskAction,
     clearUpdate: updateTaskClear,
+    createNewPacking: createNewPackingAction,
+    clearNewPacking: newPackingClear,
   }, dispatch)
 }
 

@@ -8,6 +8,9 @@ import addReceiptAction from '../../api/addReceipt'
 import { addReceiptClear } from '../../actions/addReceipt'
 import { navToAfterUpdate } from '../../utils'
 import { appConfig } from '../../config';
+import SelectDropdown from 'react-native-select-dropdown'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons'
 
 
 class AddReceipt extends Component {
@@ -27,7 +30,8 @@ class AddReceipt extends Component {
       amount: 0,
       counter: 0,
       timerID: null,
-      sent: false
+      sent: false,
+      siteNames: ["DD-Cargo", "Forward"]
     }
 
     this.handleAddData = this.handleAddData.bind(this)
@@ -68,7 +72,8 @@ class AddReceipt extends Component {
     this.setState({ timerID: null })
     this.setState({ sent: true })
 
-    if (!this.state.senderName || !this.state.senderPhone || !this.state.quantity || !this.state.amount) {
+    if (!this.state.senderName || !this.state.senderPhone || !this.state.quantity 
+      || !this.state.amount || !this.state.tracking) {
       Alert.alert('Error', 'Fields are required!')
       this.props.clear()
       this.setState({ sent: false })
@@ -99,7 +104,16 @@ class AddReceipt extends Component {
     this.setState({ timerID: setInterval(this.handleResponse, 1000) })
   }
 
-
+  setSiteName = (selectedItem, index) => {
+    if (index == 1)
+      this.setState({ senderSite: 'forward' })
+    else
+      this.setState({ senderSite: 'DD-Cargo' })
+    //console.log(this.state.senderSite)
+  }
+  setTracking = (value) => {
+    this.setState({ tracking: value })
+  }
   setName = (value) => {
     this.setState({ senderName: value })
   }
@@ -127,6 +141,44 @@ class AddReceipt extends Component {
         />
         <View style={styles.dataForm}>
         <Text style={styles.dataFormTitle}>Task № {this.state.id}</Text>
+        {!this.props.route.params.tracking ? <View>
+          <View style={styles.dataFormFirstField}>
+            <Text style={styles.dataFormTitle}>Tracking</Text>
+          </View>
+          <TextInput
+            textContentType={'none'}
+            style={styles.textInputStyle}
+            placeholder={'Tracking number'}
+            value={this.state.tracking}
+            onChangeText={this.setTracking}
+            autoCorrect={false}
+          />
+          <SelectDropdown
+            data={this.state.siteNames}
+            onSelect={this.setSiteName}
+            defaultButtonText={'Choose site name'}
+            buttonStyle={styles.buttonSelect}
+            renderDropdownIcon={isOpened => {
+              return <FontAwesomeIcon 
+                  icon={isOpened ? faCaretUp : faCaretDown} 
+                  style={styles.imageSelect} 
+                  size={18} 
+              />
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              // text represented after item is selected
+              // if data array is an array of objects then return selectedItem.property to render after item is selected
+              return selectedItem
+            }}
+            rowTextForSelection={(item, index) => {
+              // text represented for each item in dropdown
+              // if data array is an array of objects then return item.property to represent item in dropdown
+              return item
+            }}
+          />
+          </View>
+          :<View></View>
+        }
           <View style={styles.dataFormFirstField}>
             <Text style={styles.dataFormTitle}>CUSTOMER NAME</Text>
           </View>

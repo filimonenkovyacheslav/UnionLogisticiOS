@@ -11,7 +11,7 @@ export default function addReceipt(body) {
     },
     body: JSON.stringify(body),
   };
-console.log(url)
+//console.log(url)
   return dispatch => {
     dispatch(addReceiptBegin());
 

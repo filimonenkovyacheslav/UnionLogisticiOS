@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Image, Text, TouchableOpacity } from 'react-native'
+import { ScrollView, View, Image, Text, TouchableOpacity } from 'react-native'
 import styles from './HomeStyles'
 import images from '../../utils/image.utils'
 import { navToWithScan } from '../../utils'
@@ -38,6 +38,10 @@ class Home extends Component {
     navToWithScan('Search by checklist', this.props, this.state)
   }
 
+  navToAddReceipt = () => {
+    navToWithScan('Add Receipt', this.props, this.state)
+  }
+
   static getDerivedStateFromProps(props, state) {
     if (props.route.params.token !== state.token) {
       return {
@@ -56,7 +60,7 @@ class Home extends Component {
   render () {
 
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={styles.logoWarap}>
           <Image 
           source={(this.state.serverName === appConfig.API_URL_1)?images.logo:images.logoOE} 
@@ -76,9 +80,12 @@ class Home extends Component {
           </TouchableOpacity>     
           <TouchableOpacity style={styles.button} onPress={this.navToSearchByChecklist}>
             <Text style={styles.buttonText}>Search by checklist</Text>
-          </TouchableOpacity>     
+          </TouchableOpacity> 
+          <TouchableOpacity style={styles.button} onPress={this.navToAddReceipt}>
+            <Text style={styles.buttonText}>Create Receipt</Text>
+          </TouchableOpacity>    
         </View>
-      </View>
+      </ScrollView>
     )
   }
 }
