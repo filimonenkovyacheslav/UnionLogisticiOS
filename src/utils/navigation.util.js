@@ -21,6 +21,8 @@ import ScanList from '../screens/ScanList/ScanList';
 import AddTrackingList from '../screens/AddTrackingList/AddTrackingList';
 import SearchByChecklist from '../screens/SearchByChecklist/SearchByChecklist';
 import AddReceipt from '../screens/AddReceipt/AddReceipt';
+import ChooseListName from '../screens/ChooseListName/ChooseListName';
+import ChooseMethod from '../screens/ChooseMethod/ChooseMethod';
 
 
 const Closed = createNativeStackNavigator();
@@ -54,6 +56,8 @@ function MainNav() {
       <Main.Screen name="Add Tracking to List" component={AddTrackingList} />
       <Main.Screen name="Search by checklist" component={SearchByChecklist} />
       <Main.Screen name="Add Receipt" component={AddReceipt} />
+      <Main.Screen name="Choose List Name" component={ChooseListName} />
+      <Main.Screen name="Choose Method" component={ChooseMethod} />
     </Main.Navigator>
   );
 }

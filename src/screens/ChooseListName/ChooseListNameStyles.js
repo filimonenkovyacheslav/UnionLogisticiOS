@@ -43,7 +43,7 @@ export default StyleSheet.create({
   },
   dataForm: {
     width: 286,
-    height: 86,
+    height: 166,
     borderWidth: 1,
     borderRadius: 16,
     alignSelf: 'center',

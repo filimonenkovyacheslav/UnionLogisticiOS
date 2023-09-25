@@ -31,7 +31,7 @@ class Home extends Component {
   }
 
   navToScanTracking = () => {
-    navToWithScan('Scan Tracking to List', this.props, this.state)
+    navToWithScan('Choose List Name', this.props, this.state)
   }
 
   navToSearchByChecklist = () => {

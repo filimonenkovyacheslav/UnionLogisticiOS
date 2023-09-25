@@ -3,7 +3,11 @@ import { TouchableOpacity, Text, Linking, View, Alert, Image, ImageBackground, B
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import styles from './ScanListStyles';
 import images from '../../utils/image.utils'
-import { navToWithScan } from '../../utils'
+import { navToAfterChoose } from '../../utils'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import addListAction from '../../api/addList'
+import { addListClear } from '../../actions/addList'
 
 
 class ScanList extends Component {
@@ -16,23 +20,92 @@ class ScanList extends Component {
             userName: props.route.params.userName,
             token: props.route.params.token,
             userRole: props.route.params.userRole,
-            tracking: [],
+            tracking: '',
             serverName: props.route.params.serverName,
-            id: props.route.params.id
+            listName: props.route.params.listName,
+            counter: 0,
+            timerID: null,
+            sent: false,
+            endScan: false
         };
+
+        this.handleAddList = this.handleAddList.bind(this)
+        this.handleResponse = this.handleResponse.bind(this)
     }
 
+    
+    handleResponse(){
+        this.setState({ counter: this.state.counter + 1 })
+        const { error, message } = this.props;
+
+        if (message && this.state.counter < 10) {
+            Alert.alert('Success', message)
+            clearInterval(this.state.timerID)
+            this.setState({ sent: false })
+            this.props.clear()
+            if (this.state.endScan)
+                navToAfterChoose('Home', this.props, this.state)
+            else{
+                this.setState({
+                    result: null,
+                    scan: false,
+                    ScanResult: false,
+                    tracking: ''
+                })
+                navToAfterChoose('Scan Tracking to List', this.props, this.state)
+            }
+        }
+        else if (error && this.state.counter < 10){
+            Alert.alert('Error', error.message+'\n כישלון. סרוק שוב \n Failure. Scan again \n Сканирование не удалось, повторите попытку')
+            clearInterval(this.state.timerID)
+            this.setState({ sent: false })
+            this.props.clear()
+        }
+        else if (this.state.counter === 10){
+            clearInterval(this.state.timerID)
+            this.setState({ sent: false })
+            Alert.alert('Error', 'Network error!')
+            this.props.clear()
+        }
+    }
+
+
+    handleAddList(){
+        if (this.state.sent) return false
+        if (!this.state.tracking) {
+            Alert.alert('Error', 'Tracking is required!')
+            return false
+        } 
+
+        this.setState({ counter: 0 })
+        this.setState({ timerID: null })
+        this.setState({ sent: true })
+
+        const body = {
+            token: this.state.token,
+            tracking_list: [this.state.tracking],
+            serverName: this.state.serverName,
+            list_name: this.state.listName
+        }
+
+        this.props.addList(body)
+        this.setState({ timerID: setInterval(this.handleResponse, 1000) })
+    }
+
+
+    setTracking = (value) => {
+        this.setState({ tracking: value })
+    }
+
+    
     onSuccess = (e) => {
         const check = e.data.substring(0, 4);
         console.log('scanned data' + check);
-        let trackingArr = this.state.tracking;
-        if (trackingArr.indexOf(e.data) === -1)
-          trackingArr.push(e.data);
         this.setState({
             result: e,
             scan: false,
             ScanResult: true,
-            tracking: trackingArr
+            tracking: e.data
         })
         if (check === 'http') {
             Linking.openURL(e.data).catch(err => console.error('An error occured', err));
@@ -41,28 +114,28 @@ class ScanList extends Component {
                 result: e,
                 scan: false,
                 ScanResult: true,
-                tracking: trackingArr
+                tracking: e.data
             })
         }
     }
 
-    saveTracking = () => {
-      if (this.state.tracking.length) {
-        navToWithScan('Add Tracking to List', this.props, this.state)
-      } else {
-        Alert.alert('Error', 'List cannot be empty!')
-        return false
-      }
-    }
-
+    
     activeQR = () => {
         this.setState({ scan: true })
     }
 
-    scanAgain = () => {
-        this.setState({ scan: true, ScanResult: false })
+
+    handleScanAgain = () => {
+        this.handleAddList()
     }
 
+
+    handleEndScan = () => {
+        this.setState({ endScan: true })
+        this.handleAddList()
+    }
+
+    
     render() {
         const { scan, ScanResult, result, tracking } = this.state
         return (
@@ -87,20 +160,15 @@ class ScanList extends Component {
                         <Fragment>
                             <Text style={styles.textTitle1}>Result</Text>
                             <View style={ScanResult ? styles.scanCardView : styles.cardView}>
-                              <ScrollView style={styles.scrollContainer}>
-                                  <Text>Result : </Text>
-                                  {tracking.map(item => {
-                                    return <Text>{item}</Text>;
-                                  })}
-                                </ScrollView>
-                                <TouchableOpacity onPress={this.scanAgain} style={styles.buttonScan}>
+                                <Text>Result : {tracking}</Text>
+                                <TouchableOpacity onPress={this.handleScanAgain} style={styles.buttonScan}>
                                     <View style={styles.buttonWrapper}>
                                         <Image source={images.camera} style={{height: 36, width: 36, marginRight: 20}}></Image>
                                         <Text style={{...styles.buttonTextStyle, color: '#2196f3'}}>Click to scan again</Text>
                                     </View>
                                 </TouchableOpacity>
-                                <TouchableOpacity onPress={this.saveTracking} style={styles.buttonSave}>
-                                    <Text style={{color: 'white'}}>Save Tracking</Text>
+                                <TouchableOpacity onPress={this.handleEndScan} style={styles.buttonSave}>
+                                    <Text style={{color: 'white'}}>Complete the List</Text>
                                 </TouchableOpacity>
                             </View>
                         </Fragment>
@@ -137,4 +205,20 @@ class ScanList extends Component {
     }
 }
 
-export default ScanList;
+
+function mapStateToProps(state) {
+    return {
+        message: state.addList.message,
+        loading: state.addList.loading,
+        error: state.addList.error
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        addList: addListAction,
+        clear: addListClear
+    }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ScanList)

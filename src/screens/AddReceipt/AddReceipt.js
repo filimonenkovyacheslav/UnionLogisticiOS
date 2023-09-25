@@ -42,6 +42,7 @@ class AddReceipt extends Component {
   handleResponse(){
     this.setState({ counter: this.state.counter + 1 })
     const { error, message } = this.props;
+    console.log(this.props)
 
     if (message && this.state.counter < 10) {
       Alert.alert('Success', 'DONE')

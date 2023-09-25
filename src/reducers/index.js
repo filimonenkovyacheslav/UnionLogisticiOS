@@ -8,6 +8,8 @@ import {duplicatePackingReducer} from './duplicatePacking';
 import {addListReducer} from './addList';
 import {fetchChecklistReducer} from './checklist';
 import {addReceiptReducer} from './addReceipt';
+import {fetchTrackingListNamesReducer} from './trackingListNames';
+import {addChecksHistoryReducer} from './addChecksHistory';
 
 
 export default combineReducers({
@@ -19,5 +21,7 @@ export default combineReducers({
   duplicatePacking: duplicatePackingReducer,
   addList: addListReducer,
   fetchChecklist: fetchChecklistReducer,
-  addReceipt: addReceiptReducer
+  addReceipt: addReceiptReducer,
+  fetchTrackingListNames: fetchTrackingListNamesReducer,
+  addChecksHistory: addChecksHistoryReducer
 });

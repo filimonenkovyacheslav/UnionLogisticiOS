@@ -8,6 +8,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import fetchChecklistAction from '../../api/fetchChecklist'
 import { fetchChecklistClear } from '../../actions/checklist'
+import addChecksHistoryAction from '../../api/addChecksHistory'
+import { addChecksHistoryClear } from '../../actions/addChecksHistory'
 
 
 class SearchByChecklist extends Component {
@@ -23,7 +25,8 @@ class SearchByChecklist extends Component {
             tracking: null,
             serverName: props.route.params.serverName,
             id: props.route.params.id,
-            isVisible: false
+            isVisible: false,
+            trackingNow: ''
         };
 
         this.userData = {
@@ -32,20 +35,29 @@ class SearchByChecklist extends Component {
             serverName: this.props.route.params.serverName,
             role: this.props.route.params.userRole
         }
-        this.props.fetchChecklist(this.userData)       
+        this.props.fetchChecklist(this.userData)      
     }
 
     onSuccess = (e) => {
         const check = e.data.substring(0, 4);
         console.log('scanned data' + check);
-        this.setState({
-            result: e,
-            scan: false,
-            ScanResult: true,
-            tracking: e.data
-        })
-        if (check === 'http') {
-            Linking.openURL(e.data).catch(err => console.error('An error occured', err));
+        
+        if (this.state.trackingNow !== e.data) {
+            const scanResult = this.checkTrackingWithValue(this.props.checklist, e.data)
+            if (scanResult) {
+                this.sendAddChecksHistory(e.data,scanResult);
+            }
+            else {
+                this.sendAddChecksHistory(e.data,'NOT FOUND');
+            }
+
+            this.setState({
+                result: e,
+                scan: false,
+                ScanResult: true,
+                tracking: e.data,
+                trackingNow: e.data
+            })
         } else {
             this.setState({
                 result: e,
@@ -53,7 +65,18 @@ class SearchByChecklist extends Component {
                 ScanResult: true,
                 tracking: e.data
             })
-        }
+        }                                      
+        
+        if (check === 'http') {
+            Linking.openURL(e.data).catch(err => console.error('An error occured', err));
+        } /*else {
+            this.setState({
+                result: e,
+                scan: false,
+                ScanResult: true,
+                tracking: e.data
+            })
+        }*/
     }
 
     inputHandly = () => {
@@ -85,12 +108,24 @@ class SearchByChecklist extends Component {
     checkTrackingWithValue = (checklistArr, tracking) => {
         for (let i = 0; i < checklistArr.length; i++) {
             for (let prop in checklistArr[i]) {
-                if (checklistArr[i]['tracking_main'] === tracking)
+                if (checklistArr[i]['tracking_main'] === tracking) {
+                    
                     return checklistArr[i]['value'];
+                }
             }
         }
-
+        
         return false;
+    }
+
+    sendAddChecksHistory = (tracking,value) => {
+        const body = {
+            token: this.state.token,
+            tracking: tracking,
+            serverName: this.state.serverName,
+            value: value
+        }
+        this.props.addChecksHistory(body)
     }
 
     render() {
@@ -200,7 +235,10 @@ function mapStateToProps (state) {
     return {
         checklist: state.fetchChecklist.checklist,
         loading: state.fetchChecklist.loading,
-        error: state.fetchChecklist.error
+        error: state.fetchChecklist.error,
+        messageChecksHistory: state.addChecksHistory.message,
+        loadingChecksHistory: state.addChecksHistory.loading,
+        errorChecksHistory: state.addChecksHistory.error
     }
 }
 
@@ -208,7 +246,9 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
     return bindActionCreators({
         fetchChecklist: fetchChecklistAction,
-        clear: fetchChecklistClear
+        clear: fetchChecklistClear,
+        addChecksHistory: addChecksHistoryAction,
+        clearChecksHistory: addChecksHistoryClear
     }, dispatch)
 }
 
