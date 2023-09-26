@@ -18,14 +18,14 @@ export default function addReceipt(body) {
     fetch(url, parameters)
         .then(res => res.json())
         .then(response => {
-          const {success, message} = response;
+          const {success, data, message} = response;
 
           if (!success) {
             dispatch(addReceiptError(response));
             return;
           }
 
-          dispatch(addReceiptSuccess(message));
+          dispatch(addReceiptSuccess(data));
         })
         .catch(error => dispatch(addReceiptError(error)));
   };

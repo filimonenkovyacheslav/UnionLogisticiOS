@@ -43,7 +43,7 @@ export default StyleSheet.create({
   },
   dataForm: {
     width: 286,
-    height: 366,
+    height: 426,
     borderWidth: 1,
     borderRadius: 16,
     alignSelf: 'center',
@@ -79,5 +79,20 @@ export default StyleSheet.create({
   },
   imageSelect: {
     color: '#444'
+  },
+  clipboardButton: {
+    width: 240,
+    height: 50,
+    alignSelf: 'center',
+    borderRadius: 9,
+    borderColor: '#254680',
+    borderWidth: 1,
+    top: 10,
+    margin: 10,
+    padding: 5
+  },
+  clipboardText: {
+    color: 'red',
+    fontSize: 15
   }
 })

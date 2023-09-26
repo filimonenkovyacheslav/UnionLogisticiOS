@@ -11,6 +11,7 @@ import { appConfig } from '../../config';
 import SelectDropdown from 'react-native-select-dropdown'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import Clipboard from '@react-native-clipboard/clipboard';
 
 
 class AddReceipt extends Component {
@@ -31,7 +32,8 @@ class AddReceipt extends Component {
       counter: 0,
       timerID: null,
       sent: false,
-      siteNames: ["DD-Cargo", "Forward"]
+      siteNames: ["DD-Cargo", "Forward"],
+      smsText: 'SMS text'
     }
 
     this.handleAddData = this.handleAddData.bind(this)
@@ -42,14 +44,14 @@ class AddReceipt extends Component {
   handleResponse(){
     this.setState({ counter: this.state.counter + 1 })
     const { error, message } = this.props;
-    console.log(this.props)
 
     if (message && this.state.counter < 10) {
       Alert.alert('Success', 'DONE')
       clearInterval(this.state.timerID)
       this.setState({ sent: false })
       this.props.clear()
-      navToAfterUpdate('Home', this.props, this.state)
+      this.setState({ smsText: message })
+      //navToAfterUpdate('Home', this.props, this.state)
     }
     else if (error && this.state.counter < 10){
       Alert.alert('Error', error.message+'\n FAILURE')
@@ -223,8 +225,17 @@ class AddReceipt extends Component {
             value={this.state.amount}
             onChangeText={this.setAmount}
             autoCorrect={false}
-          />          
-        </View>
+          /> 
+
+          <TouchableOpacity style={styles.clipboardButton} onPress={() => Clipboard.setString(this.state.smsText)}>
+            <View>
+              <Text style={styles.clipboardText}> 
+                {this.state.smsText === 'SMS text' ? 'Click here after response to copy ' + this.state.smsText : this.state.smsText}
+              </Text>
+            </View>
+          </TouchableOpacity>         
+        
+        </View>       
           <TouchableOpacity style={ !this.state.sent ? styles.button : styles.buttonDisabled } onPress={this.handleAddData}>
             <Text style={styles.buttonText}>ISSUE RECEIPT</Text>
           </TouchableOpacity>
