@@ -34,7 +34,7 @@ class SignIn extends Component {
   handleResponse(){
     this.setState({ counter: this.state.counter + 1 })
     if (this.props.token && this.state.counter < 10) {
-      const roleArr = ['admin','courier','agent']
+      const roleArr = ['admin','courier','agent', 'courier_1', 'courier_2', 'courier_3', 'courier_4', 'courier_5', 'courier_6', 'courier_7']
       if(roleArr.indexOf(this.props.userRole) !== -1){
         clearInterval(this.state.timerID)
         this.setState({ sent: false })

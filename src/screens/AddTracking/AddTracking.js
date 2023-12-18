@@ -75,13 +75,14 @@ class AddTracking extends Component {
     this.setState({ counter: 0 })
     this.setState({ timerID: null })
     this.setState({ sent: true })
+    const courierArr = ['courier', 'courier_1', 'courier_2', 'courier_3', 'courier_4', 'courier_5', 'courier_6', 'courier_7']
 
     if (!this.state.tracking) {
       Alert.alert('Error', 'Tracking is required!')
       this.props.clear()
       return false
     }
-    if (this.state.userRole === 'courier') {
+    if (courierArr.indexOf(this.state.userRole) !== -1) {
       if (!this.state.weight || !this.state.length || !this.state.width || !this.state.height || !this.state.amountPayment) {
         Alert.alert('Error', 'הזן את כל הנתונים הנדרשים  \n Enter all data required \n Введите все необходимые данные')
         this.props.clear()
